@@ -1,0 +1,17 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/staffController');
+const { protect, authorize } = require('../middleware/auth');
+router.use(protect);
+router.get('/', ctrl.getStaff);
+router.post('/', authorize('superadmin','admin'), ctrl.createStaff);
+router.put('/:id', authorize('superadmin','admin'), ctrl.updateStaff);
+router.delete('/:id', authorize('superadmin','admin'), ctrl.deleteStaff);
+router.post('/attendance', ctrl.markAttendance);
+router.get('/attendance', ctrl.getAttendance);
+router.post('/payroll', authorize('superadmin','admin','accountant'), ctrl.generatePayroll);
+router.get('/payroll', authorize('superadmin','admin','accountant'), ctrl.getPayroll);
+router.put('/payroll/:id/pay', authorize('superadmin','admin','accountant'), ctrl.markPayrollPaid);
+router.post('/salary-advance', authorize('superadmin','admin'), ctrl.recordSalaryAdvance);
+router.get('/salary-advance', authorize('superadmin','admin','accountant'), ctrl.getSalaryAdvances);
+module.exports = router;

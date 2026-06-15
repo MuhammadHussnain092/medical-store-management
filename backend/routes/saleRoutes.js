@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/saleController');
+const { protect } = require('../middleware/auth');
+router.use(protect);
+router.get('/dashboard', ctrl.getDashboardStats);
+router.get('/', ctrl.getSales);
+router.post('/', ctrl.createSale);
+router.get('/:id', ctrl.getSale);
+module.exports = router;

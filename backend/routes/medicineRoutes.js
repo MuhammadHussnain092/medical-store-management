@@ -1,0 +1,14 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/medicineController');
+const { protect } = require('../middleware/auth');
+router.use(protect);
+router.get('/', ctrl.getMedicines);
+router.post('/', ctrl.createMedicine);
+router.get('/low-stock', ctrl.getLowStock);
+router.get('/expiring', ctrl.getExpiringMedicines);
+router.get('/barcode/:barcode', ctrl.getByBarcode);
+router.get('/:id', ctrl.getMedicine);
+router.put('/:id', ctrl.updateMedicine);
+router.delete('/:id', ctrl.deleteMedicine);
+module.exports = router;

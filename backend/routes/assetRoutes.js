@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/assetController');
+const { protect } = require('../middleware/auth');
+router.use(protect);
+router.get('/', ctrl.getAssets);
+router.post('/', ctrl.createAsset);
+router.put('/:id', ctrl.updateAsset);
+router.delete('/:id', ctrl.deleteAsset);
+router.get('/:assetId/maintenance', ctrl.getMaintenanceLogs);
+router.post('/:assetId/maintenance', ctrl.addMaintenanceLog);
+module.exports = router;

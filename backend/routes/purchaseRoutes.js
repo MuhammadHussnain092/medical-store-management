@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/purchaseController');
+const { protect, authorize } = require('../middleware/auth');
+router.use(protect);
+router.get('/', ctrl.getPurchases);
+router.post('/', ctrl.createPurchase);
+router.put('/:id/status', ctrl.updatePurchaseStatus);
+router.delete('/:id', authorize('superadmin','admin'), ctrl.deletePurchase);
+module.exports = router;

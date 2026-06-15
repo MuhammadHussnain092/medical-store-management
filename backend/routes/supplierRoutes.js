@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const ctrl = require('../controllers/supplierController');
+const { protect } = require('../middleware/auth');
+router.use(protect);
+router.get('/',                ctrl.getSuppliers);
+router.post('/',               ctrl.createSupplier);
+router.put('/:id',             ctrl.updateSupplier);
+router.delete('/:id',          ctrl.deleteSupplier);
+router.get('/:id/ledger',      ctrl.getSupplierLedger);
+router.post('/:id/payment',    ctrl.recordPayment);
+module.exports = router;
