@@ -32,14 +32,22 @@ require('./models/Return');
 
 connectDB();
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://medical-store-management-seven.vercel.app'
+];
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
 const app    = express();
 const server = http.createServer(app);
 const io     = socketIo(server, {
-  cors: { origin: process.env.CLIENT_URL || 'http://localhost:3000', methods: ['GET','POST'] }
+  cors: { origin: allowedOrigins, methods: ['GET','POST'] }
 });
 
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
