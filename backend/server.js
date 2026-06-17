@@ -69,8 +69,9 @@ app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/utility-bills', require('./routes/utilityRoutes'));
 app.use('/api/returns',       require('./routes/returnRoutes'));   // ← RETURNS (cancel + return)
 
+const mongoose = require('mongoose');
 app.get('/api/health', (req, res) =>
-  res.json({ status: 'OK', store: 'Bilal Inayat Medical Store', time: new Date() })
+  res.json({ status: 'OK', store: 'Bilal Inayat Medical Store', db: mongoose.connection.db ? mongoose.connection.db.databaseName : 'unknown', time: new Date() })
 );
 
 io.on('connection', (socket) => {
