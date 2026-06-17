@@ -17,6 +17,13 @@ const seed = async () => {
   await Promise.all([User.deleteMany(), Category.deleteMany(), Supplier.deleteMany(), Medicine.deleteMany(), Customer.deleteMany(), EquipmentAsset.deleteMany(), Settings.deleteMany()]);
   console.log('Cleared existing data');
 
+  try {
+    await User.collection.dropIndexes();
+    console.log('Dropped old user indexes');
+  } catch (err) {
+    console.log('Failed to drop old indexes (might not exist yet):', err.message);
+  }
+
   // Settings
   await Settings.create({ storeName: 'Bilal Inayat Medical Store', storeAddress: 'Main Bazar, Lahore', storePhone: '0300-1234567', currency: 'PKR' });
 
