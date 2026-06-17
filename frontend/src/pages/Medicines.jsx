@@ -180,7 +180,7 @@ export default function Medicines() {
           <button className="btn btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
           <button className="btn btn-primary" onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : editing ? 'Update' : 'Add Medicine'}</button>
         </>}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="grid-responsive-2">
           <div><label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: 6 }}>Medicine Name *</label><input {...inp('name')} placeholder="e.g. Panadol 500mg" /></div>
           <div><label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: 6 }}>Generic Name</label><input {...inp('genericName')} placeholder="e.g. Paracetamol" /></div>
           <div><label style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: 6 }}>Brand</label><input {...inp('brand')} placeholder="e.g. GSK" /></div>

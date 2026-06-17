@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme, setNotifications } from '../../store/slices/uiSlice';
-import { MdDarkMode, MdLightMode, MdNotifications, MdSearch, MdLocalHospital } from 'react-icons/md';
+import { MdDarkMode, MdLightMode, MdNotifications, MdSearch, MdLocalHospital, MdMenu } from 'react-icons/md';
 import api from '../../utils/api';
 
-export default function Navbar({ setMobileOpen }) {
+export default function Navbar({ setMobileOpen, isMobile }) {
   const dispatch = useDispatch();
   const { theme, unreadCount, notifications, storeName } = useSelector(s => s.ui);
   const { user } = useSelector(s => s.auth);
@@ -55,25 +55,39 @@ export default function Navbar({ setMobileOpen }) {
       zIndex: 50,
     }}>
 
-      {/* Store name (dynamic from settings) */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 8 }}>
-        <MdLocalHospital size={20} style={{ color: 'var(--primary)', flexShrink: 0 }} />
-        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', whiteSpace: 'nowrap', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {storeName}
-        </span>
-      </div>
+      {/* Hamburger menu for mobile */}
+      {isMobile && (
+        <button
+          onClick={() => setMobileOpen(v => !v)}
+          className="btn btn-outline btn-icon"
+          style={{ width: 36, height: 36, padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 4 }}>
+          <MdMenu size={22} style={{ color: 'var(--text)' }} />
+        </button>
+      )}
 
-      {/* Search */}
-      <div style={{ flex: 1, maxWidth: 380, position: 'relative' }}>
-        <MdSearch size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-        <input
-          className="input-field"
-          style={{ paddingLeft: 36, height: 36, fontSize: 13 }}
-          placeholder="Search..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </div>
+      {/* Store name (dynamic from settings) - hide on mobile */}
+      {!isMobile && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 8 }}>
+          <MdLocalHospital size={20} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', whiteSpace: 'nowrap', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {storeName}
+          </span>
+        </div>
+      )}
+
+      {/* Search - hide on mobile */}
+      {!isMobile && (
+        <div style={{ flex: 1, maxWidth: 380, position: 'relative' }}>
+          <MdSearch size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+          <input
+            className="input-field"
+            style={{ paddingLeft: 36, height: 36, fontSize: 13 }}
+            placeholder="Search..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+      )}
 
       {/* Right side */}
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -155,10 +169,12 @@ export default function Navbar({ setMobileOpen }) {
           }}>
             {user?.name?.charAt(0).toUpperCase()}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', lineHeight: 1.3 }}>{user?.name}</span>
-            <span style={{ fontSize: 11, fontWeight: 600, color: roleBadge.color }}>{roleBadge.label}</span>
-          </div>
+          {!isMobile && (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', lineHeight: 1.3 }}>{user?.name}</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: roleBadge.color }}>{roleBadge.label}</span>
+            </div>
+          )}
         </div>
       </div>
     </header>

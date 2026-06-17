@@ -84,7 +84,7 @@ export default function Dashboard() {
       </div>
 
       {/* Charts Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20, marginBottom: 28 }}>
+      <div className="dashboard-grid-charts">
         {/* Revenue Chart */}
         <div className="card" style={{ padding: 24 }}>
           <div style={{ marginBottom: 20 }}>
@@ -127,7 +127,7 @@ export default function Dashboard() {
       </div>
 
       {/* Bottom Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="dashboard-grid-bottom">
         {/* Low Stock */}
         <div className="card" style={{ padding: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>

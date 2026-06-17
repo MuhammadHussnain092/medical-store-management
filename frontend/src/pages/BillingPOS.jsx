@@ -199,7 +199,7 @@ export default function BillingPOS() {
   const totalItems = cart.reduce((s,i) => s+(Number(i.qty)||0), 0);
 
   return (
-    <div className="fade-in" style={{ display:'grid', gridTemplateColumns:'1fr 380px', gap:20, height:'calc(100vh - 112px)' }}>
+    <div className="fade-in pos-grid">
 
       {/* ── LEFT: Search + Cart ── */}
       <div style={{ display:'flex', flexDirection:'column', gap:16, minHeight:0, overflow:'hidden' }}>

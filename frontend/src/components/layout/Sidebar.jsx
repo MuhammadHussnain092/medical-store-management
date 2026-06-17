@@ -29,12 +29,14 @@ const ALL_NAV = [
   { label: 'Settings',     icon: MdSettings,          to: '/settings',      page: 'settings' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen, setMobileOpen, isMobile }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { sidebarCollapsed, storeName } = useSelector(s => s.ui);
   const { user } = useSelector(s => s.auth);
-  const w = sidebarCollapsed ? '72px' : '260px';
+  
+  const w = isMobile ? '260px' : (sidebarCollapsed ? '72px' : '260px');
+  const leftVal = isMobile ? (mobileOpen ? '0' : '-260px') : '0';
 
   // Filter nav by role permissions
   const allowedPages = ROLE_PERMISSIONS[user?.role] || [];
@@ -58,8 +60,8 @@ export default function Sidebar() {
   return (
     <aside style={{
       width: w, minWidth: w, background: 'var(--sidebar-bg)', height: '100vh',
-      position: 'fixed', top: 0, left: 0, zIndex: 100,
-      display: 'flex', flexDirection: 'column', transition: 'width 0.3s',
+      position: 'fixed', top: 0, left: leftVal, zIndex: 100,
+      display: 'flex', flexDirection: 'column', transition: 'width 0.3s, left 0.3s',
       overflowX: 'hidden', overflowY: 'auto', borderRight: '1px solid rgba(255,255,255,0.06)'
     }}>
       {/* Logo */}
@@ -90,10 +92,11 @@ export default function Sidebar() {
         {navItems.map(({ label, icon: Icon, to }) => (
           <NavLink key={to} to={to}
             className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}
-            style={{ justifyContent: sidebarCollapsed ? 'center' : 'flex-start' }}
-            title={sidebarCollapsed ? label : ''}>
+            style={{ justifyContent: (sidebarCollapsed && !isMobile) ? 'center' : 'flex-start' }}
+            onClick={() => isMobile && setMobileOpen(false)}
+            title={(sidebarCollapsed && !isMobile) ? label : ''}>
             <Icon size={20} style={{ flexShrink: 0 }} />
-            {!sidebarCollapsed && <span style={{ fontSize: 13 }}>{label}</span>}
+            {(!sidebarCollapsed || isMobile) && <span style={{ fontSize: 13 }}>{label}</span>}
           </NavLink>
         ))}
       </nav>
