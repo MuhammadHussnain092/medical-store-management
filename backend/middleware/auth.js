@@ -8,7 +8,7 @@ exports.protect = async (req, res, next) => {
   }
   if (!token) return res.status(401).json({ success: false, message: 'Not authorized' });
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'bilal_medical_jwt_secret_2024_ultra_secure_key');
     req.user = await User.findById(decoded.id).select('-password');
     if (!req.user || !req.user.isActive) return res.status(401).json({ success: false, message: 'User not found or inactive' });
     next();
